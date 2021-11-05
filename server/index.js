@@ -11,19 +11,18 @@ const initializeServer = (port) => {
   const server = app.listen(port, () => {
     debug(chalk.yellow(`Listening to the port ${port}`));
   });
+
+  server.on('error', (error) => {
+    debug(chalk.red('Error when starting the server.'));
+    if (error.code === 'EADDRINUSE') {
+      debug(chalk.red(`The port ${port} is ocupied.`));
+    }
+  });
 };
-
-server.on('error', (error) => {
-  debug(chalk.red('Error when starting the server.'));
-  if (error.code === 'EADDRINUSE') {
-    debug(chalk.red(`The port ${port} is ocupied.`));
-  }
-});
-
 app.use(morgan('dev'));
 app.use(express.json());
 
-app.use('./robots', robotsRoutes);
+app.use('/robots', robotsRoutes);
 
 app.use(notFoundErrorHandler);
 app.use(generalErrorHandler);
