@@ -1,11 +1,10 @@
 const express = require('express');
-const Robot = require('../../database/models/Robot');
+const { getRobots, getRobotById, } = require("../controllers/robotsControllers");
 
 const router = express.Router();
 
-router.get('/', async (req, res) => {
-  const robots = await Robot.find({});
-  res.json(robots);
-});
+router.get('/', getRobots);
+
+router.get("/:idRobot", getRobotById);
 
 module.exports = router;
