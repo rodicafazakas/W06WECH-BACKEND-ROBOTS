@@ -1,4 +1,4 @@
-const debug = require('debug');
+const debug = require('debug')("robots:robotsController");
 const chalk = require("chalk");
 
 const Robot = require('../../database/models/Robot');
@@ -23,7 +23,27 @@ const getRobotById = async (req, res, next) => {
     error.code = 400;
     next(error);
   }
-}
+};
+
+const createRobot = async (req, res, next) => {
+  const { token } = req.query;
+  
+  if (token !== process.env.ACCESS_TOKEN) {
+    const error = new Error("Unauthorized");
+    error.code = 401;
+    next(error);
+  }
+
+  try {
+    const robot = req.body;
+    const newRobot = await Robot.create(robot);
+    res.json(newRobot);
+  } catch (error) {
+    error.code = 400;
+    next(error);
+  }
+};
+
 
 const deleteRobotById = async (req, res, next) => {
   debug(chalk.yellow(req.params));
@@ -55,5 +75,6 @@ const deleteRobotById = async (req, res, next) => {
 module.exports = {
   getRobots,
   getRobotById,
+  createRobot,
   deleteRobotById,
 };
