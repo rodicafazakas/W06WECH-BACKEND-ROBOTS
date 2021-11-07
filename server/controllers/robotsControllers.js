@@ -14,7 +14,24 @@ const getRobotById = async (req, res, next) => {
     } else {
       const error = new Error("Robot not found");
       error.code = 404;
-      throw error;
+      next(error);
+    }
+  } catch (error) {
+    error.code = 400;
+    next(error);
+  }
+}
+
+const deleteRobotById = async (req, res, next) => {
+  const { idRobot } = req.params;
+  try {
+    const robotToDelete= await Robot.findByIdAndDelete(idRobot);
+    if (robotToDelete) {
+      res.json(robotToDelete);
+    } else {
+      const error = new Error("Robot not found");
+      error.code = 404;
+      next(error);
     }
   } catch (error) {
     error.code = 400;
@@ -26,4 +43,5 @@ const getRobotById = async (req, res, next) => {
 module.exports = {
   getRobots,
   getRobotById,
+  deleteRobotById,
 };
