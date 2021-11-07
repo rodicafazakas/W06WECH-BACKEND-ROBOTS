@@ -1,3 +1,6 @@
+const debug = require('debug');
+const chalk = require("chalk");
+
 const Robot = require('../../database/models/Robot');
 
 const getRobots = async (req, res) => {
@@ -8,7 +11,7 @@ const getRobots = async (req, res) => {
 const getRobotById = async (req, res, next) => {
   const {idRobot} = req.params;
   try {
-    const searchedRobot = Robot.findById(idRobot);
+    const searchedRobot = await Robot.findById(idRobot);
     if (searchedRobot) {
       res.json(searchedRobot);
     } else {
@@ -23,7 +26,16 @@ const getRobotById = async (req, res, next) => {
 }
 
 const deleteRobotById = async (req, res, next) => {
+  debug(chalk.yellow(req.params));
+  const { token } = req.query;
   const { idRobot } = req.params;
+
+  if (token !== process.env.ACCESS_TOKEN) {
+    const error = new Error("Unauthorized");
+    error.code = 401;
+    next(error);
+  }
+
   try {
     const robotToDelete= await Robot.findByIdAndDelete(idRobot);
     if (robotToDelete) {

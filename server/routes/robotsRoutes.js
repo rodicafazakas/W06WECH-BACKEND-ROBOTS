@@ -7,6 +7,6 @@ router.get('/', getRobots);
 
 router.get("/:idRobot", getRobotById);
 
-router.delete("./delete/:idRobot", deleteRobotById)
+router.delete("/delete/:idRobot", deleteRobotById)
 
 module.exports = router;
