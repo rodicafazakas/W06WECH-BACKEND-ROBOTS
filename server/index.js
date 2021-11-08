@@ -6,6 +6,7 @@ const cors = require('cors');
 const morgan = require('morgan');
 const { notFoundErrorHandler, generalErrorHandler } = require('./error');
 const robotsRoutes = require('./routes/robotsRoutes');
+const usersRoutes = require('./routes/userRoutes');
 
 const app = express();
 app.use(cors())
@@ -27,9 +28,12 @@ app.use(morgan('dev'));
 app.use(express.json());
 
 app.use('/robots', robotsRoutes);
+app.use('/users', usersRoutes);
 
 
 app.use(notFoundErrorHandler);
 app.use(generalErrorHandler);
+
+
 
 module.exports = initializeServer;
