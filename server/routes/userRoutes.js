@@ -1,6 +1,7 @@
 const express = require('express');
 const bcrypt = require("bcrypt");
 const User = require('../../database/models/User');
+const loginUser = require("../controllers/usersControllers")
 
 
 
@@ -13,7 +14,8 @@ router.post('/', async (req,res) => {
     username: "luis",
     password: await  bcrypt.hash("luisin", 10)
   });
-  // res.json('a')
 });
 
+
+router.post("/login", loginUser);
 module.exports = router;
