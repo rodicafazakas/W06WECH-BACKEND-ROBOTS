@@ -7,6 +7,7 @@ const morgan = require('morgan');
 const { notFoundErrorHandler, generalErrorHandler } = require('./error');
 const robotsRoutes = require('./routes/robotsRoutes');
 const usersRoutes = require('./routes/userRoutes');
+const auth = require("./auth");
 
 const app = express();
 app.use(cors())
@@ -27,7 +28,7 @@ const initializeServer = (port) => {
 app.use(morgan('dev'));
 app.use(express.json());
 
-app.use('/robots', robotsRoutes);
+app.use('/robots', auth, robotsRoutes);
 app.use('/users', usersRoutes);
 
 
