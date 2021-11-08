@@ -1,5 +1,8 @@
 const Robot = require("../../database/models/Robot");
-const {getRobots, getRobotById, deleteRobotById} = require("./robotsControllers");
+const {getRobots, getRobotById, deleteRobotById } = require("./robotsControllers");
+
+
+// hay que moquear primero el modulo Robot!!!
 
 describe("Given a getRobots function", () => {
   describe("When it receives an object response", () => {
