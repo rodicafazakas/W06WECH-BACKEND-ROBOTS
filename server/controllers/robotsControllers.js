@@ -37,7 +37,7 @@ const createRobot = async (req, res, next) => {
   try {
     const robot = req.body;
     const newRobot = await Robot.create(robot);
-    res.json(newRobot);
+    res.status(201).json(newRobot);
   } catch (error) {
     error.code = 400;
     next(error);
@@ -76,5 +76,5 @@ module.exports = {
   getRobots,
   getRobotById,
   createRobot,
-  deleteRobotById,
+  deleteRobotById
 };

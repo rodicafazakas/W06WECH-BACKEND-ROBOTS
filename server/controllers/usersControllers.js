@@ -12,7 +12,7 @@ const loginUser = async( req, res, next ) => {
     const rightPassword = await bcrypt.compare(password, user.password);
     
     if (rightPassword) {
-      const token = jwt.sign(`{"username":"${user.username}"}`, process.env.JWT_SECRET, {expiresIn: 24*60*60});
+      const token = jwt.sign(`{"username":"${user.username}"}`, process.env.JWT_SECRET);
       res.json({ token });
     } else {
       const error = new Error ("Wrong credetials");

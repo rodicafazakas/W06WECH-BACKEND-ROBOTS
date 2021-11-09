@@ -1,8 +1,9 @@
 const Robot = require("../../database/models/Robot");
-const {getRobots, getRobotById, deleteRobotById } = require("./robotsControllers");
+const {getRobots, 
+       getRobotById, 
+       deleteRobotById } = require("./robotsControllers");
 
-
-// hay que moquear primero el modulo Robot!!!
+jest.mock("../../database/models/Robot");
 
 describe("Given a getRobots function", () => {
   describe("When it receives an object response", () => {
@@ -86,7 +87,7 @@ describe("Given a deleteRobotById", () => {
       const req = {
         params: {
           idRobot,
-        }
+        },
       };
       const res = {
         json: jest.fn()
