@@ -11,18 +11,25 @@ const auth = require("./auth");
 
 const app = express();
 
-const initializeServer = (port) => {
-  const server = app.listen(port, () => {
-    debug(chalk.yellow(`Listening to the port ${port}`));
-  });
+const initializeServer = (port) => 
+  new Promise( (resolve, reject) => {
+    const server = app.listen(port, () => {
+      debug(chalk.yellow(`Listening to the port ${port}`));
+      resolve(server);
+    });
 
-  server.on('error', (error) => {
-    debug(chalk.red('Error when starting the server.'));
-    if (error.code === 'EADDRINUSE') {
-      debug(chalk.red(`The port ${port} is ocupied.`));
-    }
+    server.on('error', (error) => {
+      debug(chalk.red('Error when starting the server.'));
+      if (error.code === 'EADDRINUSE') {
+        debug(chalk.red(`The port ${port} is ocupied.`));
+      }
+      reject();
+    });
+
+    server.on("close", () => {
+		  debug(chalk.yellow("Server express disconected"));
+	  })
   });
-};
 
 // configurar el servidor
 app.use(morgan('dev'));
@@ -36,4 +43,4 @@ app.use(generalErrorHandler);
 
 
 
-module.exports = initializeServer;
+module.exports = { app, initializeServer };

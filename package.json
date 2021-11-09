@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon index -q",
     "start": "node index",
-    "test": "jest --watchAll --collect-coverage"
+    "test": "jest --collect-coverage"
   },
   "repository": {
     "type": "git",
@@ -24,7 +24,8 @@
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.25.2",
     "jest": "^27.3.1",
-    "nodemon": "^2.0.14"
+    "nodemon": "^2.0.14",
+    "supertest": "^6.1.6"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
