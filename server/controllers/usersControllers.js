@@ -1,3 +1,5 @@
+
+require("dotenv").config();
 const bcrypt = require("bcrypt");
 const jwt=require("jsonwebtoken");
 const User = require("../../database/models/User");
@@ -10,7 +12,7 @@ const loginUser = async( req, res, next ) => {
     const rightPassword = await bcrypt.compare(password, user.password);
     
     if (rightPassword) {
-      const token = jwt.sign(`{"username":"${user.username}"}`, process.env.JWT_SECRET);
+      const token = jwt.sign(`{"username":"${user.username}"}`, process.env.JWT_SECRET, {expiresIn: 24*60*60});
       res.json({ token });
     } else {
       const error = new Error ("Wrong credetials");

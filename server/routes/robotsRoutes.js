@@ -1,6 +1,5 @@
 const express = require('express');
 const { getRobots, getRobotById, createRobot, deleteRobotById} = require("../controllers/robotsControllers");
-const {auth} = require("../auth"); 
 
 
 const router = express.Router();
