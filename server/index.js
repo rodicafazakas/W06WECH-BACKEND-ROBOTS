@@ -10,7 +10,6 @@ const usersRoutes = require('./routes/userRoutes');
 const auth = require("./auth");
 
 const app = express();
-app.use(cors())
 
 const initializeServer = (port) => {
   const server = app.listen(port, () => {
@@ -25,12 +24,12 @@ const initializeServer = (port) => {
   });
 };
 
+// configurar el servidor
 app.use(morgan('dev'));
+app.use(cors())
 app.use(express.json());
-
-app.use('/robots', auth, robotsRoutes);
 app.use('/users', usersRoutes);
-
+app.use('/robots', auth, robotsRoutes);
 
 app.use(notFoundErrorHandler);
 app.use(generalErrorHandler);
