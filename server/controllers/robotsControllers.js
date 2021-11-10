@@ -26,14 +26,6 @@ const getRobotById = async (req, res, next) => {
 };
 
 const createRobot = async (req, res, next) => {
-  const { token } = req.query;
-  
-  if (token !== process.env.ACCESS_TOKEN) {
-    const error = new Error("Unauthorized");
-    error.code = 401;
-    next(error);
-  }
-
   try {
     const robot = req.body;
     const newRobot = await Robot.create(robot);
@@ -45,16 +37,21 @@ const createRobot = async (req, res, next) => {
 };
 
 
+const updateRobot = async (req, res, next) => {
+  const robot = req.body;
+  try {
+    const updatedRobot = await Robot.findByIdAndUpdate(robot.id, robot, { new: true });
+    res.json(updatedRobot);
+  } catch {
+    const error = new Error("Robot not found");
+    error.code = 404;
+    next(error);
+  };
+};
+
 const deleteRobotById = async (req, res, next) => {
   debug(chalk.yellow(req.params));
-  const { token } = req.query;
   const { idRobot } = req.params;
-
-  if (token !== process.env.ACCESS_TOKEN) {
-    const error = new Error("Unauthorized");
-    error.code = 401;
-    next(error);
-  }
 
   try {
     const robotToDelete= await Robot.findByIdAndDelete(idRobot);
@@ -76,5 +73,6 @@ module.exports = {
   getRobots,
   getRobotById,
   createRobot,
+  updateRobot,
   deleteRobotById
 };

@@ -17,25 +17,18 @@ const connectDB = (connectionString) =>
     });
     
     mongoose.connection
-    .on("open", () => {
-      debug(chalk.green("The database connection is open"));
-    })
-    .on("close", () => {
-      debug(chalk.green("The database is disconnected"));
-    });
+    .on("open", () => { debug(chalk.green("The database connection is open")); })
+    .on("close", () => { debug(chalk.green("The database connection is closed")); });
 
     mongoose.connect(connectionString, (error) => {
       if (error) {
         debug(chalk.red('Connection refused!'));
         debug(chalk.red(error.message));
-        reject();
-        return;
+        reject(error);
       }
       debug(chalk.green('Connection success!'));
       resolve();
     });
-
-
 });
 
 module.exports = connectDB;

@@ -45,13 +45,13 @@ describe("Given a loginUser action", ()=> {
       }
       const res = null;
       const next = jest.fn();
-      const expectedError =new Error("Wrong credentials");
-      expectedError.code =401;
+      const expectedError = new Error("Wrong credentials");
+      expectedError.code = 401;
 
       await loginUser(req, res, next);
 
       expect(next.mock.calls[0][0]).toHaveProperty("message", expectedError.message);
-      expect(next.mock.calls[0][0]).toHaveProperty("code", expectedError.code;
+      expect(next.mock.calls[0][0]).toHaveProperty("code", expectedError.code);
     })
   })
 

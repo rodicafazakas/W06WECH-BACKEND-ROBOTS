@@ -1,5 +1,5 @@
 const express = require('express');
-const { getRobots, getRobotById, createRobot, deleteRobotById} = require("../controllers/robotsControllers");
+const { getRobots, getRobotById, createRobot, updateRobot, deleteRobotById} = require("../controllers/robotsControllers");
 
 
 const router = express.Router();
@@ -10,6 +10,8 @@ router.get('/', getRobots);
 router.get("/:idRobot", getRobotById);
 
 router.post("/create", createRobot);
+
+router.put("/update", updateRobot);
 
 router.delete("/delete/:idRobot", auth, deleteRobotById);
 

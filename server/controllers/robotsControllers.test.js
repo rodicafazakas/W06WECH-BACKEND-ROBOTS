@@ -99,3 +99,54 @@ describe("Given a deleteRobotById", () => {
     })
   } )
 })
+
+
+describe("Given an updateRobot function", ()=>{
+  describe("When a it receives a non existent robot", ()=>{
+		test("Then it should respond with a 404 error", async () => {
+      Robot.findByIdAndUpdate = jest.fn().mockResolvedValue(null);
+			const req = {
+        body: {
+          id: "618805d2694b6329b6088d58", 
+        }
+      };
+      const next = jest.fn();
+      const expectedError = {
+        code: 404,
+        message: "Robot not found",
+      };
+
+      updateRobot(req, null, next);
+
+			expect(next).toHaveBeenCalledWith(expectedError);
+	});
+
+
+  describe("When a it receives an existent robot", ()=>{
+		test("Then it should respond with the updated robot", async () => {
+      const updatedRobot = {
+        id: "618aab9eae0f1220eb7b9d92", 
+        name: "R2D2",
+        image: "https://media.istockphoto.com/photos/-picture-id500962582?s=612x612",
+        features: {
+          speed: 5,
+          strength: 10,
+          creation_date: "1980-10-05T23:00:00.000Z"
+        }
+      };
+      Robot.findByIdAndUpdate = jest.fn().mockResolvedValue(updatedRobot);
+      const req = {
+        body: {
+          id: "618805d2694b6329b6088d59", 
+        }
+      };
+      const res= {
+        json: jest.fn();
+      }
+			
+      updateRobot(req, res);
+
+      expect(res.json).toHabeenCalled();
+	  });
+  });  
+});
